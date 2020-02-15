@@ -1,13 +1,14 @@
 
 <!doctype html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.6">
-    <title>Album example · Bootstrap</title>
+    <title>Karol Kurek</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/album/">
 
@@ -45,15 +46,15 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Karol Kurek</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Karol Kurek</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="#">Twitter</a>
-                <a class="nav-item nav-link" href="#">Resume</a>
-                <a class="nav-item nav-link" href="#">Blog</a>
+                <a class="nav-item nav-link" href="http://google.pl">Twitter</a>
+                <a class="nav-item nav-link" href="{% static 'CV.pdf' %}">Resume</a>
+                <a class="nav-item nav-link" href="{% url 'allblogs' %}">Blog</a>
             </div>
         </div>
     </nav>
@@ -68,6 +69,7 @@
             <p>
                 <a href="mailto:karol.jerzy.kurek@gmail.com" class="btn btn-primary my-2">Email Me</a>
             </p>
+            <img src="{% static 'ja.jpg' %}" height="200" width="200" />
         </div>
     </section>
 
