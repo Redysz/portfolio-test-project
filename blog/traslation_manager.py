@@ -7,6 +7,9 @@ global_translations = dict()
 class TranslationManager:
     _instance = None
 
+    def __init__(self):
+        self.current_language = 'en'
+
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             instance = super().__new__(cls, *args, **kwargs)
@@ -23,9 +26,6 @@ class TranslationManager:
         else:
             lang = 'pl'
         self.current_language = lang
-        # conf = Configuration.objects.get(key='language')
-        # conf.value = lang
-        # conf.save()
 
     def __get_translation_for_language(self, translation_obj):
         if self.current_language == 'en':
@@ -47,10 +47,9 @@ class TranslationManager:
 
 translator = TranslationManager()
 
-def reload_global_translations():
+def reload_global_translations_with_language(lang: str):
+    translator.set_current_language(lang)
     global_translations['Resume'] = translator.get_translation('TR_RESUME')
     global_translations['Flag'] = translator.get_translation('TR_FLAG_FILE')
     global_translations['Blog'] = translator.get_translation('TR_BLOG')
     global_translations['TR_CV_FILENAME'] = translator.get_translation('TR_CV_FILENAME')
-
-reload_global_translations()
