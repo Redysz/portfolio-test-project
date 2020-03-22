@@ -8,11 +8,12 @@ class TranslationManager:
     _instance = None
 
     def __init__(self):
-        self.current_language = None
+        self.current_language = 'en'
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             instance = super().__new__(cls, *args, **kwargs)
+            instance.__get_current_language()
             cls._instance = instance
         return cls._instance
 
