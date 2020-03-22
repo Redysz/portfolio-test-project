@@ -7,31 +7,27 @@ global_translations = dict()
 class TranslationManager:
     _instance = None
 
-    def __init__(self):
-        self.current_language = 'en'
-
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             instance = super().__new__(cls, *args, **kwargs)
-            instance.__get_current_language()
+            instance.current_language = 'en'
             cls._instance = instance
         return cls._instance
 
     def __get_current_language(self):
-        self.current_language = Configuration.objects.get(key='language').value
+        return self.current_language
 
-    @staticmethod
-    def set_current_language(language: str):
+    def set_current_language(self, language: str):
         if language.lower() in ['english', 'en', 'us', 'england']:
             lang = 'en'
         else:
             lang = 'pl'
-        conf = Configuration.objects.get(key='language')
-        conf.value = lang
-        conf.save()
+        self.current_language = lang
+        # conf = Configuration.objects.get(key='language')
+        # conf.value = lang
+        # conf.save()
 
     def __get_translation_for_language(self, translation_obj):
-        self.__get_current_language()
         if self.current_language == 'en':
             return translation_obj.text_en
         else:
