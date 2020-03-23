@@ -56,3 +56,4 @@ def reload_global_translations_with_language(lang: str):
     global_translations['TR_CV_FILENAME'] = translator.get_translation('TR_CV_FILENAME')
     global_translations['Donate'] = translator.get_translation('TR_DONATE_BUTTON')
     global_translations['Projects'] = translator.get_translation('TR_PROJECTS')
+    global_translations['More'] = translator.get_translation('TR_MORE')

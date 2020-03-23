@@ -10,4 +10,5 @@ class Project(models.Model):
     short_description = models.ForeignKey('Translation', related_name='translation_short_description', on_delete=models.CASCADE)
     description = models.ForeignKey('Translation', related_name='translation_description', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/')
+    hyperlink = models.URLField()
     publication_date = models.DateTimeField(auto_now_add=True)
