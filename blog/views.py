@@ -14,9 +14,6 @@ def detail(request, blog_id):
     return render(request, 'blog/detail.html', {'blog': blog, 'translations': global_translations})
 
 def change_lang(request, lang):
-    print("===")
-    print(lang, type(lang))
-    print("===")
     translator.set_current_language(language=lang)
     request.session['lang'] = lang
     reload_global_translations_with_language(lang)

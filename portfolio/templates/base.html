@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.6">
-    <title>My blog</title>
+    <title>My portfolio</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/album/">
 
@@ -59,7 +59,9 @@
                 <a class="nav-item nav-link" href="{% url 'change_lang' lang='english'  %}"><img src="{% static 'english.png' %}" width="20" height="15" /></a>
                 <a class="nav-item nav-link" href="https://www.facebook.com/karol.kurek.562">Facebook</a>
                 <a class="nav-item nav-link" href="{% static translations.TR_CV_FILENAME %}">{{ translations.Resume }}</a>
-                <a class="nav-item nav-link active" href="{% url 'allblogs' %}">Blog</a>
+<!--                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'allblogs' or request.resolver_match.view_name == 'detail' %}active{% endif %}" href="{% url 'allblogs' %}">{{ translations.Blog }}</a>-->
+                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'allprojects' or request.resolver_match.view_name == 'project_detail' %}active{% endif %}" href="{% url 'allprojects' %}">{{ translations.Projects }}</a>
+                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'donate' %}active{% endif %}" href="{% url 'allblogs' %}">{{ translations.Donate }}</a>
             </div>
         </div>
     </nav>
