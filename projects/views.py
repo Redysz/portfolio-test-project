@@ -38,7 +38,7 @@ def project_detail(request, project_id):
                    'short_description': project_obj.short_description.text_en,
                    'description': project_obj.description.text_en,
                    'image': project_obj.image,
-                   'hyperlink': getattr(project_obj.hyperlink, 'text_en', None),
+                   'hyperlink': getattr(project_obj, 'hyperlink', None),
                    'hyperlink_title': getattr(project_obj.hyperlink_title, 'text_en', None)
                    }
     else:
@@ -48,7 +48,7 @@ def project_detail(request, project_id):
                    'short_description': project_obj.short_description.text_pl,
                    'description': project_obj.description.text_pl,
                    'image': project_obj.image,
-                   'hyperlink': getattr(project_obj.hyperlink, 'text_pl', None),
+                   'hyperlink': getattr(project_obj, 'hyperlink', None),
                    'hyperlink_title': getattr(project_obj.hyperlink_title, 'text_pl', None)
                    }
 
