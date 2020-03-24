@@ -28,6 +28,36 @@ def allprojects(request):
     return render(request, 'projects/allprojects.html', {'projects': my_projects, 'translations': global_translations})
 
 def project_detail(request, project_id):
-    project = Project.objects.get(id=project_id)
-    reload_global_translations_with_language(get_lang_from_request(request))
+    project_obj = Project.objects.get(id=project_id)
+    lang = get_lang_from_request(request)
+    reload_global_translations_with_language(lang)
+    if lang == 'en':
+        project = {'id': project_obj.pk,
+                   'title': project_obj.title_obj.text_en,
+                   'second_title': getattr(project_obj.second_title, 'text_en', None),
+                   'short_description': project_obj.short_description.text_en,
+                   'description': project_obj.description.text_en,
+                   'image': project_obj.image,
+                   'hyperlink': getattr(project_obj.hyperlink, 'text_en', None),
+                   'hyperlink_title': getattr(project_obj.hyperlink_title, 'text_en', None)
+                   }
+    else:
+        project = {'id': project_obj.pk,
+                   'title': project_obj.title_obj.text_pl,
+                   'second_title': getattr(project_obj.second_title, 'text_pl', None),
+                   'short_description': project_obj.short_description.text_pl,
+                   'description': project_obj.description.text_pl,
+                   'image': project_obj.image,
+                   'hyperlink': getattr(project_obj.hyperlink, 'text_pl', None),
+                   'hyperlink_title': getattr(project_obj.hyperlink_title, 'text_pl', None)
+                   }
+
+        images = [project_obj.gallery_image1, project_obj.gallery_image2,
+                  project_obj.gallery_image3, project_obj.gallery_image4]
+        not_none_images = []
+        for image in images:
+            if bool(image.name):
+                not_none_images.append(image)
+        project['gallery'] = not_none_images
+
     return render(request, 'projects/detail.html', {'project': project, 'translations': global_translations})
