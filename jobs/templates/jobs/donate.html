@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="my-3">{{ translations.Support }}</h3>
+                <p>{{ translations.SupportText }}</p>
+                <ul>
+                    <li>{{ translations.BuyCourses }} (<a href="{% url 'allprojects' %}">{{ translations.GotoProjects }}</a>).</li>
+                    <li>{{ translations.TransferMoney }}</li>
+                </ul>
+                <hr>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+<!--                pusto-->
+            </div>
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-title border mb-0"><h5 class="ml-1">{{ translations.TraditionalTransfer }}</h5></div>
+                    <div class="card-body ml-0 pl-1 mb-0 pb-0">
+                        <h6>{{ translations.BankAccount }}:</h6>
+                        <p>{{ translations.AccountNumber }}</p>
+                        <h6>{{ translations.Recipient }}:</h6>
+                        <p>{{ translations.Name }}<br>{{ translations.Address1 }}<br>{{ translations.Address2 }}<br>{{ translations.Country }}</p>
+                        <h6>{{ translations.TransferTitle }}:</h6>
+                        <p>{{ translations.Donation }}</p>
+                        <p>({{ translations.AdditionalInfo }})</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-title border mb-0"><h5 class="ml-1">PayPal</h5></div>
+                    <div class="card-body ml-0 pl-1 mb-0 pb-1 mt-0 pt-1">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                        <input type="hidden" name="cmd" value="_donations" />
+                        <input type="hidden" name="business" value="H9HJ9L5HGTY2E" />
+                        <input type="image" src="https://www.paypalobjects.com/en_US/PL/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                        <img alt="" border="0" src="https://www.paypal.com/en_PL/i/scr/pixel.gif" width="1" height="1" />
+                        <select id="currency" name="currency_code" required style="position: absolute; top: 50px; left: 140px;">
+                          <option selected disabled value>{{ translations.ChooseCurrency }}</option>
+                          <option value="PLN">PLN</option>
+                          <option value="EUR">EUR</option>
+                          <option value="USD">USD</option>
+                          <option value="GBP">GBP</option>
+                        </select>
+                        </form>
+
+
+                    </div>
+                </div>
+                <br />
+<!--                <div class="card">-->
+<!--                    <div class="card-title border mb-0"><h5 class="ml-1">Przelewy24</h5></div>-->
+<!--                    <div class="card-body ml-0 pl-1 mb-0 pb-0">-->
+<!--                        <form method="POST" action="">-->
+<!--                        {% csrf_token %}-->
+<!--                            Kwota:-->
+<!--                            <br />-->
+<!--                            <input type="text" name="amount" /> PLN-->
+<!--                            <br />-->
+<!--                            <input class="btn btn-primary mt-1" type="submit" value="Dalej" name="" />-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+            <div class="col-md-1">
+<!--                pusto-->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

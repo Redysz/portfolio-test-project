@@ -61,7 +61,7 @@
                 <a class="nav-item nav-link" href="{% static translations.TR_CV_FILENAME %}">{{ translations.Resume }}</a>
 <!--                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'allblogs' or request.resolver_match.view_name == 'detail' %}active{% endif %}" href="{% url 'allblogs' %}">{{ translations.Blog }}</a>-->
                 <a class="nav-item nav-link {% if request.resolver_match.view_name == 'allprojects' or request.resolver_match.view_name == 'project_detail' %}active{% endif %}" href="{% url 'allprojects' %}">{{ translations.Projects }}</a>
-                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'donate' %}active{% endif %}" href="{% url 'allblogs' %}">{{ translations.Donate }}</a>
+                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'donate' %}active{% endif %}" href="{% url 'donate' %}">{{ translations.Donate }}</a>
             </div>
         </div>
     </nav>
