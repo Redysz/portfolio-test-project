@@ -52,12 +52,12 @@ def project_detail(request, project_id):
                    'hyperlink_title': getattr(project_obj.hyperlink_title, 'text_pl', None)
                    }
 
-        images = [project_obj.gallery_image1, project_obj.gallery_image2,
-                  project_obj.gallery_image3, project_obj.gallery_image4]
-        not_none_images = []
-        for image in images:
-            if bool(image.name):
-                not_none_images.append(image)
-        project['gallery'] = not_none_images
+    images = [project_obj.gallery_image1, project_obj.gallery_image2,
+              project_obj.gallery_image3, project_obj.gallery_image4]
+    not_none_images = []
+    for image in images:
+        if bool(image.name):
+            not_none_images.append(image)
+    project['gallery'] = not_none_images
 
     return render(request, 'projects/detail.html', {'project': project, 'translations': global_translations})
