@@ -6,26 +6,35 @@
 
 <main role="main">
 
-    <section class="jumbotron text-center">
+    <section class="jumbotron text-center py-3">
         <div class="container">
-            <h1>{{ translations.Hello }}!</h1>
-            <p class="lead text-muted">{{ translations.Welcome }}</p>
-            <p>
-                <a href="mailto:karol.jerzy.kurek@gmail.com" class="btn btn-primary my-2">{{ translations.Write }}</a>
-            </p>
-            <img src="{% static 'ja.jpg' %}" height="200" width="200" />
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <h1>{{ translations.Hello }}!</h1>
+                    <p class="lead text-muted">{{ translations.Welcome }}</p>
+                    <p>
+                        <a href="mailto:karol.jerzy.kurek@gmail.com" class="btn btn-primary my-2">{{ translations.Write }}</a>
+                    </p>
+                    <img src="{% static 'ja.jpg' %}" height="200" width="200" />
+                </div>
+                <div class="col-md-2">
+                    AAAA!<br/>
+                    BBBB!
+                </div>
+            </div>
         </div>
     </section>
 
-    <div class="album py-5 bg-light">
+    <div class="album py-1 bg-light">
         <div class="container">
-
+            <h6>{{ translations.Newest }}</h6>
             <div class="row">
-
-                {% for job in jobs.all %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <img src="{{ job.image.url }}" />
+                {% for job in jobs %}
+                <div class="col-md-3">
+                    <div class="card mb-6 shadow-sm">
+                        <a href="#"><img src="{{ job.image.url }}" width="100%"/></a>
                         <div class="card-body">
                             <p class="card-text">{{ job.summary }}</p>
                         </div>

@@ -18,3 +18,5 @@ class Project(models.Model):
     hyperlink = models.URLField()
     hyperlink_title = models.ForeignKey('Translation', related_name='translation_hyperling_title', on_delete=models.CASCADE, null=True)
     publication_date = models.DateTimeField(auto_now_add=True)
+    priority = models.IntegerField(default=0)
+    creation_date = models.DateTimeField(blank=True, null=True)

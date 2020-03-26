@@ -4,7 +4,7 @@ from blog.traslation_manager import translator, global_translations, reload_glob
 from blog.utils import get_lang_from_request
 
 def home(request):
-    jobs = Job.objects
+    jobs = Job.objects.all().order_by('-id')[:4]
     translations = dict()
     reload_global_translations_with_language(get_lang_from_request(request))
     translations['Hello'] = translator.get_translation('TR_HELLO')

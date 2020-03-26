@@ -62,3 +62,4 @@ def reload_global_translations_with_language(lang: str):
     global_translations['ProjectDescription'] = translator.get_translation('TR_PROJECT_DESCRIPTION')
     global_translations['ProjectDetails'] = translator.get_translation('TR_PROJECT_DETAILS')
     global_translations['Gallery'] = translator.get_translation('TR_GALLERY')
+    global_translations['Newest'] = translator.get_translation('TR_NEWEST')

@@ -4,7 +4,7 @@ from blog.traslation_manager import translator, global_translations, reload_glob
 from blog.utils import get_lang_from_request
 
 def allprojects(request):
-    projects = Project.objects.all()
+    projects = Project.objects.all().order_by('-priority', '-publication_date')
     lang = get_lang_from_request(request)
     reload_global_translations_with_language(lang)
     my_projects = list()
