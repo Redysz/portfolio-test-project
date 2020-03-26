@@ -20,8 +20,14 @@
                     <img src="{% static 'ja.jpg' %}" height="200" width="200" />
                 </div>
                 <div class="col-md-2">
-                    AAAA!<br/>
-                    BBBB!
+                    {% for skill in skills %}
+                        <table style="border: 0px solid black">
+                            <tr style="border: 0px solid black;">
+                                <td style="border: 0px solid black;" width="50px"><img src="{{ skill.icon.url }}" height="20" width="auto" /></td>
+                                <td style="border: 0px solid black;">{{ skill.summary }}</td>
+                            </tr>
+                        </table>
+                    {% endfor %}
                 </div>
             </div>
         </div>
