@@ -48,15 +48,15 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{% url 'home' %}">Karol Kurek</a>
         {% with flag=translations.Flag %}
-        <img src="{% static flag %}" width="20" height="15" />
+        <img src="{% static flag %}" width="20" height="15" style="position:absolute; left: 130px;" />
         {% endwith %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="{% url 'change_lang' lang='polish'  %}"><img src="{% static 'polish.png' %}" width="20" height="15" /></a>
-                <a class="nav-item nav-link" href="{% url 'change_lang' lang='english'  %}"><img src="{% static 'english.png' %}" width="20" height="15" /></a>
+                <a class="nav-item nav-link" href="{% url 'change_lang' lang='polish'  %}"><img {%if translations.lang == 'pl' %} style="border:1px solid silver" {%endif%} src="{% static 'polish.png' %}" width="20" height="15"/></a>
+                <a class="nav-item nav-link" href="{% url 'change_lang' lang='english'  %}"><img {%if translations.lang == 'en' %} style="border:1px solid silver" {%endif%}  src="{% static 'english.png' %}" width="20" height="15" /></a>
                 <a class="nav-item nav-link" href="https://www.facebook.com/karol.kurek.562">Facebook</a>
                 <a class="nav-item nav-link" href="{% static translations.TR_CV_FILENAME %}">{{ translations.Resume }}</a>
 <!--                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'allblogs' or request.resolver_match.view_name == 'detail' %}active{% endif %}" href="{% url 'allblogs' %}">{{ translations.Blog }}</a>-->
