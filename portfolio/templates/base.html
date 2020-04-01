@@ -57,11 +57,10 @@
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link" href="{% url 'change_lang' lang='polish'  %}"><img {%if translations.lang == 'pl' %} style="border:1px solid silver" {%endif%} src="{% static 'polish.png' %}" width="20" height="15"/></a>
                 <a class="nav-item nav-link" href="{% url 'change_lang' lang='english'  %}"><img {%if translations.lang == 'en' %} style="border:1px solid silver" {%endif%}  src="{% static 'english.png' %}" width="20" height="15" /></a>
-                <a class="nav-item nav-link" href="https://www.facebook.com/karol.kurek.562">Facebook</a>
                 <a class="nav-item nav-link" href="{% static translations.TR_CV_FILENAME %}">{{ translations.Resume }}</a>
-<!--                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'allblogs' or request.resolver_match.view_name == 'detail' %}active{% endif %}" href="{% url 'allblogs' %}">{{ translations.Blog }}</a>-->
                 <a class="nav-item nav-link {% if request.resolver_match.view_name == 'allprojects' or request.resolver_match.view_name == 'project_detail' %}active{% endif %}" href="{% url 'allprojects' %}">{{ translations.Projects }}</a>
                 <a class="nav-item nav-link {% if request.resolver_match.view_name == 'donate' %}active{% endif %}" href="{% url 'donate' %}">{{ translations.Donate }}</a>
+                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
             </div>
         </div>
     </nav>

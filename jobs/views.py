@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Job, Skill
 from blog.traslation_manager import translator, global_translations, reload_global_translations_with_language
 from blog.utils import get_lang_from_request
+from django.core.mail import send_mail
 
 def home(request):
     jobs = Job.objects.all().order_by('-id')[:4]
@@ -39,3 +40,11 @@ def donate(request):
     translations['Country'] = translator.get_translation('TR_COUNTRY')
     translations.update(global_translations)
     return render(request, 'jobs/donate.html', {'translations': translations})
+
+def contact(request):
+    lang = get_lang_from_request(request)
+    reload_global_translations_with_language(lang)
+    return render(request, 'jobs/contact.html', {'translations': global_translations})
+
+def send_email_view(request):
+    return render(request, 'jobs/contact.html', {'translations': global_translations})

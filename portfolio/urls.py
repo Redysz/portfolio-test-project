@@ -11,4 +11,6 @@ urlpatterns = [
     path('projects/', include('projects.urls')),
     path('', jobs.views.home, name='home'),
     path('donate/', jobs.views.donate, name='donate'),
+    path('contact/', jobs.views.contact, name='contact'),
+    path('aaaaaa/', jobs.views.send_email_view, name='send_email_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
