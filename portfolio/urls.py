@@ -12,5 +12,5 @@ urlpatterns = [
     path('', jobs.views.home, name='home'),
     path('donate/', jobs.views.donate, name='donate'),
     path('contact/', jobs.views.contact, name='contact'),
-    path('contact/', jobs.views.send_email_view, name='send_email_view'),
+    path('contact/sent', jobs.views.send_email_view, name='send_email_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
