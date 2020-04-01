@@ -15,7 +15,7 @@
                     <h1>{{ translations.Hello }}!</h1>
                     <p class="lead text-muted">{{ translations.Welcome }}</p>
                     <p>
-                        <a href="mailto:karol.jerzy.kurek@gmail.com" class="btn btn-primary my-2">{{ translations.Write }}</a>
+                        <a href="{% url 'contact' %}" class="btn btn-primary my-2">{{ translations.Write }}</a>
                     </p>
                     <img src="{% static 'ja.jpg' %}" height="200" width="200" />
                 </div>

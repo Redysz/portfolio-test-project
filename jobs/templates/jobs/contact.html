@@ -6,6 +6,21 @@
 <div class="album py-5 bg-light">
     <div class="container">
 
+    {% if error %}
+    <font size="3" color="red">
+    {{ error }}
+    </font>
+    <br />
+    {% endif %}
+
+    {% if success %}
+    <font size="3" color="green">
+    {{ success }}
+    </font>
+    <br />
+    {% endif %}
+
+
     <section class="mb-4">
         <h2 class="h1-responsive font-weight-bold text-center">{{ translations.ContactMe }}</h2>
         <p class="text-center w-responsive mx-auto mb-5">{{ translations.ContactTitle }}</p>
