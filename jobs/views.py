@@ -47,4 +47,17 @@ def contact(request):
     return render(request, 'jobs/contact.html', {'translations': global_translations})
 
 def send_email_view(request):
+    if request.method == 'POST':
+        if not request.POST['subject'] or not request.POST['message'] or not request.POST['sender_email'] or not request.POST['sender']:
+            return render(request, 'jobs/contact.html',
+                          {'translations': global_translations, 'error': global_translations['ContactError']})
+        subject = request.POST['subject']
+        message = request.POST['message']
+        sender_email = request.POST['sender_email']
+        sender = request.POST['sender']
+        send_mail(subject, sender_email+'\n'+sender+'\n'+message, 'innekontopocztowe@gmail.com', ['karol.kurek.projects@gmail.com'],
+            fail_silently=False,
+        )
+        return render(request, 'jobs/contact.html',
+                      {'translations': global_translations, 'success': global_translations['EmailSuccess']})
     return render(request, 'jobs/contact.html', {'translations': global_translations})

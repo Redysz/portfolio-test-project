@@ -5,12 +5,66 @@
 {% load static %}
 <div class="album py-5 bg-light">
     <div class="container">
+
+    <section class="mb-4">
+        <h2 class="h1-responsive font-weight-bold text-center">{{ translations.ContactMe }}</h2>
+        <p class="text-center w-responsive mx-auto mb-5">{{ translations.ContactTitle }}</p>
+
         <div class="row">
-            <div class="col-md-12">
-                <a href="{% url 'send_email_view' %}">HELLO</a>
+            <div class="col-md-3">
+                <!--Placeholder-->
             </div>
+            <div class="col-md-6 mb-md-0 mb-5">
+                <form id="contact-form" method="POST" action="{% url 'send_email_view' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="md-form mb-1">
+                                <input type="text" id="sender" name="sender" class="form-control" placeholder="{{ translations.YourName }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="md-form mb-1">
+                                <input type="text" id="sender_email" name="sender_email" class="form-control" placeholder="{{ translations.YourEmail }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="md-form mb-1">
+                                <input type="text" id="subject" name="subject" class="form-control" placeholder="{{ translations.Subject }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="md-form mb-1">
+                                <textarea id="message" name="message" rows="2" class="form-control md-textarea" placeholder="{{ translations.YourMessage }}"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+
+                <div class="text-center text-md-left">
+                    <a class="btn btn-primary" onclick="document.getElementById('contact-form').submit();" style="width: 78px;">{{ translations.Send }}</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <!--Placeholder-->
+            </div>
+
+
         </div>
+
+    </section>
     </div>
 </div>
+
 
 {% endblock %}
