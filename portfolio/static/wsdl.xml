@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:plink="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:s0="http://www.veolia.com/PL/ESB/SWD/2016/01" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap11enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap11env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap12enc="http://www.w3.org/2003/05/soap-encoding" xmlns:soap12env="http://www.w3.org/2003/05/soap-envelope" xmlns:tns="http://www.veolia.com/PL/SWD/2016/01/dodajPunktSieci" xmlns:wsa="http://schemas.xmlsoap.org/ws/2003/03/addressing" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xop="http://www.w3.org/2004/08/xop/include" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://www.veolia.com/PL/SWD/2016/01/dodajPunktSieci" name="dodajPunktSieci_webservice">
+    <wsdl:types>
+        <xs:schema targetNamespace="http://www.veolia.com/PL/SWD/2016/01/dodajPunktSieci" elementFormDefault="qualified">
+            <xs:import namespace="http://www.veolia.com/PL/ESB/SWD/2016/01"/>
+            <xs:simpleType name="RDSPP">
+                <xs:restriction base="xs:string">
+                    <xs:pattern value=".*=.*:.*"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="typDaty">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Oddania"/>
+                    <xs:enumeration value="Uruchomienia"/>
+                    <xs:enumeration value="Odcięcia"/>
+                    <xs:enumeration value="Remontu"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="id">
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="PL1(W|K|C|Z|G|R|X|M|D|U)[a-zA-Z0-9]+"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="nazwa">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="GIS"/>
+                    <xs:enumeration value="KOMMEDIA"/>
+                    <xs:enumeration value="MAXIMO"/>
+                    <xs:enumeration value="SAOC"/>
+                    <xs:enumeration value="ISC"/>
+                    <xs:enumeration value="BES"/>
+                    <xs:enumeration value="CRD"/>
+                    <xs:enumeration value="ID_GIS_NADRZEDNE"/>
+                    <xs:enumeration value="GIS_ID_PKT_GLO"/>
+                    <xs:enumeration value="NR_WEW_GIS"/>
+                    <xs:enumeration value="NODE_LEVEL"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="rodzaj">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Tunel zbiorczy"/>
+                    <xs:enumeration value="Studzienka"/>
+                    <xs:enumeration value="Komora"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="zrodloCiepla">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Ciepłownia miejska (komunalna)"/>
+                    <xs:enumeration value="Ciepłownia przemysłowa"/>
+                    <xs:enumeration value="Kotłownia lokalna"/>
+                    <xs:enumeration value="Kotłownia osiedlowa"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="docResult">
+                <xs:sequence>
+                    <xs:element name="errorCode" type="xs:string"/>
+                    <xs:element name="errorDesc" type="xs:string" minOccurs="0"/>
+                    <xs:element name="errorDetails" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="errorInfo" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="retryable" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="systemName" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="paraTech">
+                <xs:sequence>
+                    <xs:element name="zamowMocCieplna" type="xs:string"/>
+                    <xs:element name="obliczPrzeplyw" type="xs:string"/>
+                    <xs:element name="cisnienieZasil" type="xs:string"/>
+                    <xs:element name="tempZasil" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="wodaSieciowa">
+                <xs:sequence>
+                    <xs:element name="zamowMocCieplna" type="xs:string"/>
+                    <xs:element name="dataMoc" type="xs:string"/>
+                    <xs:element name="obliczPrzeplyw" type="xs:string"/>
+                    <xs:element name="cisnienieZasil" type="xs:string"/>
+                    <xs:element name="cisnieniePowrot" type="xs:string"/>
+                    <xs:element name="maxNatezPrzepl" type="xs:string"/>
+                    <xs:element name="obliczTempZasil" type="xs:string"/>
+                    <xs:element name="obliczTempPowrot" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="wodaTech">
+                <xs:sequence>
+                    <xs:element name="zamowMocCieplna" type="xs:string"/>
+                    <xs:element name="obliczPrzeplyw" type="xs:string"/>
+                    <xs:element name="cisnienieZasil" type="xs:string"/>
+                    <xs:element name="cisnieniePowrot" type="xs:string"/>
+                    <xs:element name="tempZasil" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docDodajPunktSieciOut">
+                <xs:sequence>
+                    <xs:element name="result" type="tns:docResult"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="parametryMiejsca">
+                <xs:sequence>
+                    <xs:element name="miejsceMontazu" type="xs:string" minOccurs="0"/>
+                    <xs:element name="funkcja" type="xs:string" minOccurs="0"/>
+                    <xs:element name="rodzaj" type="xs:string" minOccurs="0"/>
+                    <xs:element name="typ" type="xs:string" minOccurs="0"/>
+                    <xs:element name="producent" type="xs:string" minOccurs="0"/>
+                    <xs:element name="srednica" type="xs:string" minOccurs="0"/>
+                    <xs:element name="rodzajKroccow" type="xs:string" minOccurs="0"/>
+                    <xs:element name="czyPreizol" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="kvs" type="xs:double" minOccurs="0"/>
+                    <xs:element name="stanNormalny" type="xs:string" minOccurs="0"/>
+                    <xs:element name="lokalizacja" type="xs:string" minOccurs="0"/>
+                    <xs:element name="nazwaLokalizacji" type="xs:string" minOccurs="0"/>
+                    <xs:element name="RDSPP" type="tns:RDSPP" minOccurs="0"/>
+                    <xs:element name="daty" type="s0:docDatyPunktSieci" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="dodajPunktSieciResponse">
+                <xs:sequence>
+                    <xs:element name="dodajPunktSieciResult" type="tns:docDodajPunktSieciOut" minOccurs="0" nillable="true"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docDodajPunktSieci">
+                <xs:sequence>
+                    <xs:element name="id" type="tns:id"/>
+                    <xs:element name="idSystemow" type="s0:docIdentyfikator" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="nazwa" type="xs:string" minOccurs="0"/>
+                    <xs:element name="wlasnosc" type="s0:wlasnosc" minOccurs="0"/>
+                    <xs:element name="systemCiepl" type="xs:string"/>
+                    <xs:element name="status" type="s0:statusObiektuSieciowego"/>
+                    <xs:element name="nrDokumentacji" type="xs:string" minOccurs="0"/>
+                    <xs:element name="systemOdczytowy" type="s0:systemOdczytowy"/>
+                    <xs:element name="uwagiEkspl" type="xs:string" minOccurs="0"/>
+                    <xs:element name="srodekTrwaly" type="s0:docSrodekTrwaly" minOccurs="0"/>
+                    <xs:element name="daty" type="s0:docDatyPunktSieci" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="lokalizacja" type="s0:docLokalizacjaObiektuSieciowego" minOccurs="0"/>
+                    <xs:element name="wezel" type="s0:docWezel" minOccurs="0"/>
+                    <xs:element name="komora" type="s0:docKomora" minOccurs="0"/>
+                    <xs:element name="rozdzielnia" type="s0:docRozdzielnia" minOccurs="0"/>
+                    <xs:element name="zrodloCiepla" type="s0:docZrodloCiepla" minOccurs="0"/>
+                    <xs:element name="przepompownia" type="s0:docPrzepompownia" minOccurs="0"/>
+                    <xs:element name="rurociag" type="s0:docRurociag" minOccurs="0"/>
+                    <xs:element name="armatura" type="s0:docArmatura" minOccurs="0"/>
+                    <xs:element name="odwodnienie" type="s0:docOdwodnienie" minOccurs="0"/>
+                    <xs:element name="kompensator" type="s0:docKompensator" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docDodajPunktSieciIn">
+                <xs:sequence>
+                    <xs:element name="systemOrderId" type="xs:string"/>
+                    <xs:element name="punktSieci" type="tns:docDodajPunktSieci"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="dodajPunktSieci">
+                <xs:sequence>
+                    <xs:element name="docDodajPunktSieciIn" type="tns:docDodajPunktSieciIn" minOccurs="0" nillable="true"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="docResult" type="tns:docResult"/>
+            <xs:element name="paraTech" type="tns:paraTech"/>
+            <xs:element name="wodaSieciowa" type="tns:wodaSieciowa"/>
+            <xs:element name="wodaTech" type="tns:wodaTech"/>
+            <xs:element name="docDodajPunktSieciOut" type="tns:docDodajPunktSieciOut"/>
+            <xs:element name="parametryMiejsca" type="tns:parametryMiejsca"/>
+            <xs:element name="dodajPunktSieciResponse" type="tns:dodajPunktSieciResponse"/>
+            <xs:element name="docDodajPunktSieci" type="tns:docDodajPunktSieci"/>
+            <xs:element name="docDodajPunktSieciIn" type="tns:docDodajPunktSieciIn"/>
+            <xs:element name="dodajPunktSieci" type="tns:dodajPunktSieci"/>
+        </xs:schema>
+        <xs:schema targetNamespace="http://www.veolia.com/PL/ESB/SWD/2016/01" elementFormDefault="qualified">
+            <xs:import namespace="http://www.veolia.com/PL/SWD/2016/01/dodajPunktSieci"/>
+            <xs:complexType name="docDatyPunktSieci">
+                <xs:sequence>
+                    <xs:element name="data" type="xs:date"/>
+                    <xs:element name="typDaty" type="tns:typDaty"/>
+                    <xs:element name="rodzajDok" type="xs:string" minOccurs="0"/>
+                    <xs:element name="oznaczenieDok" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="wlasnosc">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Własny"/>
+                    <xs:enumeration value="Obcy"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="docPrzylaczeSieciowe">
+                <xs:sequence>
+                    <xs:element name="wlasnosc" type="s0:wlasnosc" minOccurs="0"/>
+                    <xs:element name="status" type="xs:string" minOccurs="0"/>
+                    <xs:element name="nrInw" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docWspolrzedne">
+                <xs:sequence>
+                    <xs:element name="szerokosc" type="xs:string"/>
+                    <xs:element name="dlugosc" type="xs:string"/>
+                    <xs:element name="wysokosc" type="xs:string" minOccurs="0"/>
+                    <xs:element name="sekwencja" type="xs:integer" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="statusObiektuSieciowego">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="EKSPLOATACJA"/>
+                    <xs:enumeration value="BUDOWA"/>
+                    <xs:enumeration value="CZAS-WYL"/>
+                    <xs:enumeration value="ZLIKWIDOWANY"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="systemOdczytowy">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="ISC"/>
+                    <xs:enumeration value="SAOC"/>
+                    <xs:enumeration value="MODUŁ RADIOWY"/>
+                    <xs:enumeration value="INNY"/>
+                    <xs:enumeration value="BRAK"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="takNieType">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="T"/>
+                    <xs:enumeration value="N"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="docAdres">
+                <xs:sequence>
+                    <xs:element name="idAdresu" type="xs:string" minOccurs="0"/>
+                    <xs:element name="opis" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docMocePrzepompownia">
+                <xs:sequence>
+                    <xs:element name="zamowiona" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="pobierana" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="zuzycie" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="wartoscPocz" type="xs:decimal" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docParametryKomora">
+                <xs:sequence>
+                    <xs:element name="rodzajStudzienki" type="xs:string" minOccurs="0"/>
+                    <xs:element name="miejsceMontazu" type="xs:string" minOccurs="0"/>
+                    <xs:element name="srednicaNominal" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="srednicaCiagu" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="dlugosc" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="szerokosc" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="wysokosc" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="naziom" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="funkcjaStudzienki" type="xs:string" minOccurs="0"/>
+                    <xs:element name="rodzajOdwodnienia" type="xs:string" minOccurs="0"/>
+                    <xs:element name="iloscSzybow" type="xs:integer" minOccurs="0"/>
+                    <xs:element name="czyTelemetria" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="czyTelesterowanie" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="czyWentylacja" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="czyGaz" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="czyZalewana" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="nawierzchnia" type="xs:string" minOccurs="0"/>
+                    <xs:element name="rodzajNawierzchni" type="xs:string" minOccurs="0"/>
+                    <xs:element name="statusTypowania" type="xs:string" minOccurs="0"/>
+                    <xs:element name="mocCieplna" type="xs:decimal" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docParametryOdwodnienie">
+                <xs:sequence>
+                    <xs:element name="srednicaNom" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="material" type="xs:string" minOccurs="0"/>
+                    <xs:element name="podloczonyDo" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docParametryRurociag">
+                <xs:sequence>
+                    <xs:element name="technologia" type="xs:string" minOccurs="0"/>
+                    <xs:element name="czynnikGrzewczy" type="xs:string" minOccurs="0"/>
+                    <xs:element name="parametr" type="xs:string" minOccurs="0"/>
+                    <xs:element name="producent" type="xs:string" minOccurs="0"/>
+                    <xs:element name="kierunek" type="xs:string" minOccurs="0"/>
+                    <xs:element name="pozycja" type="xs:string" minOccurs="0"/>
+                    <xs:element name="funkcja" type="xs:string" minOccurs="0"/>
+                    <xs:element name="przeznaczenie" type="xs:string" minOccurs="0"/>
+                    <xs:element name="srednicaNom" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="srednicaZewn" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="rodzajRury" type="xs:string" minOccurs="0"/>
+                    <xs:element name="dlugosc" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="dlugoscWyliczana" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="gruboscScianki" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="strukturaIzolacji" type="xs:string" minOccurs="0"/>
+                    <xs:element name="postacIzolacji" type="xs:string" minOccurs="0"/>
+                    <xs:element name="rodzPlaszcza" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docParametryWezel">
+                <xs:sequence>
+                    <xs:element name="technologia" type="xs:string" minOccurs="0"/>
+                    <xs:element name="typObiektu" type="xs:string" minOccurs="0"/>
+                    <xs:element name="przetwCzynnika" type="xs:string" minOccurs="0"/>
+                    <xs:element name="czynnikGrzewczy" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ukladObiegow" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docRozdzielnia">
+                <xs:sequence>
+                    <xs:element name="idWezla" type="xs:string" minOccurs="0"/>
+                    <xs:element name="komoraZasil" type="xs:string" minOccurs="0"/>
+                    <xs:element name="przylacze" type="s0:docPrzylaczeSieciowe" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docSrodekTrwaly">
+                <xs:sequence>
+                    <xs:element name="nrInw" type="xs:string"/>
+                    <xs:element name="nazwa" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="parametryMiejscaKompensatora">
+                <xs:sequence>
+                    <xs:element name="miejsceMontazu" type="xs:string" minOccurs="0"/>
+                    <xs:element name="typ" type="xs:string" minOccurs="0"/>
+                    <xs:element name="rodzaj" type="xs:string" minOccurs="0"/>
+                    <xs:element name="rodzajMieszkowego" type="xs:string" minOccurs="0"/>
+                    <xs:element name="producent" type="xs:string" minOccurs="0"/>
+                    <xs:element name="dlugoscZabudow" type="xs:string" minOccurs="0"/>
+                    <xs:element name="gruboscKroccow" type="xs:integer" minOccurs="0"/>
+                    <xs:element name="zdolnoscKompL" type="xs:string" minOccurs="0"/>
+                    <xs:element name="srNominalna" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="zrodloDanych" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docIdentyfikator">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:string"/>
+                    <xs:element name="nazwa" type="tns:nazwa"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docKomora">
+                <xs:sequence>
+                    <xs:element name="rodzaj" type="tns:rodzaj"/>
+                    <xs:element name="magistrala" type="xs:string"/>
+                    <xs:element name="parametry" type="s0:docParametryKomora"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docLokalizacjaObiektuSieciowego">
+                <xs:sequence>
+                    <xs:element name="nrObiektuSieciowego" type="xs:string" minOccurs="0"/>
+                    <xs:element name="adres" type="s0:docAdres" minOccurs="0"/>
+                    <xs:element name="obwod" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ZEC" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ksztalt" type="xs:string" minOccurs="0"/>
+                    <xs:element name="wspolrzedne" type="s0:docWspolrzedne" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="wspolrzedneWGS84" type="s0:docWspolrzedne" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="wspolrzedneWKT" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docOdwodnienie">
+                <xs:sequence>
+                    <xs:element name="rodzaj" type="xs:string" minOccurs="0"/>
+                    <xs:element name="nazwaKomory" type="xs:string" minOccurs="0"/>
+                    <xs:element name="parametry" type="s0:docParametryOdwodnienie" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docParametryKompensator">
+                <xs:sequence>
+                    <xs:element name="miejsceMontazu" type="xs:string" minOccurs="0"/>
+                    <xs:element name="parametryMiejsca" type="s0:parametryMiejscaKompensatora" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docParametryPrzepompownia">
+                <xs:sequence>
+                    <xs:element name="parametr" type="xs:string" minOccurs="0"/>
+                    <xs:element name="rodzajTelemetrii" type="xs:string" minOccurs="0"/>
+                    <xs:element name="czynnikGrzewczy" type="xs:string" minOccurs="0"/>
+                    <xs:element name="pomiarCisnien" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="pomiarTemp" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="moce" type="s0:docMocePrzepompownia" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docParametryUmowaCieplownia">
+                <xs:sequence>
+                    <xs:element name="wodaSieciowa" type="tns:wodaSieciowa" minOccurs="0"/>
+                    <xs:element name="paraTech" type="tns:paraTech" minOccurs="0"/>
+                    <xs:element name="wodaTech" type="tns:wodaTech" minOccurs="0"/>
+                    <xs:element name="mocCieplna" type="xs:decimal" minOccurs="0"/>
+                    <xs:element name="dataObowiazywaniaOd" type="xs:date" minOccurs="0"/>
+                    <xs:element name="dataObowiazywaniaDo" type="xs:date" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docParametryZrodloCiepla">
+                <xs:sequence>
+                    <xs:element name="czyTelemetria" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="funkcja" type="xs:string" minOccurs="0"/>
+                    <xs:element name="zrodloCiepla" type="tns:zrodloCiepla"/>
+                    <xs:element name="czynnikGrzewczy" type="xs:string" minOccurs="0"/>
+                    <xs:element name="miejsceAnteny" type="xs:string" minOccurs="0"/>
+                    <xs:element name="rodzajPaliwa" type="xs:string" minOccurs="0"/>
+                    <xs:element name="usytuowanie" type="xs:string" minOccurs="0"/>
+                    <xs:element name="okresObowiazywaniaOd" type="xs:date" minOccurs="0"/>
+                    <xs:element name="okresObowiazywaniaDo" type="xs:date" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docRurociag">
+                <xs:sequence>
+                    <xs:element name="parametry" type="s0:docParametryRurociag" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docWezel">
+                <xs:sequence>
+                    <xs:element name="komoraZasil" type="xs:string" minOccurs="0"/>
+                    <xs:element name="nrUmowyPrzylacz" type="xs:string" minOccurs="0"/>
+                    <xs:element name="nrUmowyBES" type="xs:string" minOccurs="0"/>
+                    <xs:element name="czyBES" type="s0:takNieType" minOccurs="0"/>
+                    <xs:element name="funkcja" type="xs:string" minOccurs="0" nillable="true"/>
+                    <xs:element name="przylacze" type="s0:docPrzylaczeSieciowe" minOccurs="0"/>
+                    <xs:element name="parametry" type="s0:docParametryWezel" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docKompensator">
+                <xs:sequence>
+                    <xs:element name="parametry" type="s0:docParametryKompensator" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docParametryArmatura">
+                <xs:sequence>
+                    <xs:element name="rodzajObudowy" type="xs:string" minOccurs="0"/>
+                    <xs:element name="miejsceMontazu" type="xs:string" minOccurs="0"/>
+                    <xs:element name="parametryMiejsca" type="tns:parametryMiejsca" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docPrzepompownia">
+                <xs:sequence>
+                    <xs:element name="rodzaj" type="xs:string" minOccurs="0"/>
+                    <xs:element name="parametry" type="s0:docParametryPrzepompownia" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docZrodloCiepla">
+                <xs:sequence>
+                    <xs:element name="pelnaNazwa" type="xs:string" minOccurs="0"/>
+                    <xs:element name="parametry" type="s0:docParametryZrodloCiepla"/>
+                    <xs:element name="daneUmowyCieplownia" type="s0:docParametryUmowaCieplownia" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="docArmatura">
+                <xs:sequence>
+                    <xs:element name="idArmaturyNadrz" type="xs:string" minOccurs="0"/>
+                    <xs:element name="magistrala" type="xs:string"/>
+                    <xs:element name="idKomory" type="xs:string" minOccurs="0"/>
+                    <xs:element name="oznaczenie" type="xs:string" minOccurs="0"/>
+                    <xs:element name="parametry" type="s0:docParametryArmatura" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="docDatyPunktSieci" type="s0:docDatyPunktSieci"/>
+            <xs:element name="docPrzylaczeSieciowe" type="s0:docPrzylaczeSieciowe"/>
+            <xs:element name="docWspolrzedne" type="s0:docWspolrzedne"/>
+            <xs:element name="docAdres" type="s0:docAdres"/>
+            <xs:element name="docMocePrzepompownia" type="s0:docMocePrzepompownia"/>
+            <xs:element name="docParametryKomora" type="s0:docParametryKomora"/>
+            <xs:element name="docParametryOdwodnienie" type="s0:docParametryOdwodnienie"/>
+            <xs:element name="docParametryRurociag" type="s0:docParametryRurociag"/>
+            <xs:element name="docParametryWezel" type="s0:docParametryWezel"/>
+            <xs:element name="docRozdzielnia" type="s0:docRozdzielnia"/>
+            <xs:element name="docSrodekTrwaly" type="s0:docSrodekTrwaly"/>
+            <xs:element name="parametryMiejscaKompensatora" type="s0:parametryMiejscaKompensatora"/>
+            <xs:element name="docIdentyfikator" type="s0:docIdentyfikator"/>
+            <xs:element name="docKomora" type="s0:docKomora"/>
+            <xs:element name="docLokalizacjaObiektuSieciowego" type="s0:docLokalizacjaObiektuSieciowego"/>
+            <xs:element name="docOdwodnienie" type="s0:docOdwodnienie"/>
+            <xs:element name="docParametryKompensator" type="s0:docParametryKompensator"/>
+            <xs:element name="docParametryPrzepompownia" type="s0:docParametryPrzepompownia"/>
+            <xs:element name="docParametryUmowaCieplownia" type="s0:docParametryUmowaCieplownia"/>
+            <xs:element name="docParametryZrodloCiepla" type="s0:docParametryZrodloCiepla"/>
+            <xs:element name="docRurociag" type="s0:docRurociag"/>
+            <xs:element name="docWezel" type="s0:docWezel"/>
+            <xs:element name="docKompensator" type="s0:docKompensator"/>
+            <xs:element name="docParametryArmatura" type="s0:docParametryArmatura"/>
+            <xs:element name="docPrzepompownia" type="s0:docPrzepompownia"/>
+            <xs:element name="docZrodloCiepla" type="s0:docZrodloCiepla"/>
+            <xs:element name="docArmatura" type="s0:docArmatura"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="dodajPunktSieci">
+        <wsdl:part name="dodajPunktSieci" element="tns:dodajPunktSieci"/>
+    </wsdl:message>
+    <wsdl:message name="dodajPunktSieciResponse">
+        <wsdl:part name="dodajPunktSieciResponse" element="tns:dodajPunktSieciResponse"/>
+    </wsdl:message>
+    <wsdl:service name="veolia.channel.swd.http.dodajPunktSieci_webservice">
+        <wsdl:port name="dodajPunktSieci_webservice" binding="tns:dodajPunktSieci_webservice">
+            <soap:address location="http://10.11.7.211:8000/backend/soap/integration/dodaj_punkt_sieci/"/>
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:portType name="dodajPunktSieci_webservice">
+        <wsdl:operation name="dodajPunktSieci" parameterOrder="dodajPunktSieci">
+            <wsdl:input name="dodajPunktSieci" message="tns:dodajPunktSieci"/>
+            <wsdl:output name="dodajPunktSieciResponse" message="tns:dodajPunktSieciResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="dodajPunktSieci_webservice" type="tns:dodajPunktSieci_webservice">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="dodajPunktSieci">
+            <soap:operation soapAction="dodajPunktSieci" style="document"/>
+            <wsdl:input name="dodajPunktSieci">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="dodajPunktSieciResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>
