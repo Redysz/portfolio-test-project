@@ -4,9 +4,10 @@ from blog.traslation_manager import translator, global_translations, reload_glob
 from blog.utils import get_lang_from_request
 from django.core.mail import send_mail
 
+
 def home(request):
-    jobs = Job.objects.all().order_by('-id')[:4]
-    skills = Skill.objects.all()
+    jobs = Job.objects.all().order_by('-priority', '-id')[:4]
+    skills = Skill.objects.all().order_by('-priority')
     translations = dict()
     lang = get_lang_from_request(request)
     reload_global_translations_with_language(lang)
@@ -17,6 +18,7 @@ def home(request):
     translations.update(global_translations)
     return render(request, 'jobs/home.html', {'jobs': jobs, 'skills': skills, 'translations': translations})
 
+
 def donate(request):
     translations = dict()
     lang = get_lang_from_request(request)
@@ -25,6 +27,7 @@ def donate(request):
     translations['SupportText'] = translator.get_translation('TR_SUPPORT_TEXT')
     translations['BuyCourses'] = translator.get_translation('TR_BUY_COURSES')
     translations['GotoProjects'] = translator.get_translation('TR_GO_TO_PROJECTS')
+    translations['ContactMePoint'] = translator.get_translation('TR_CONTACT_ME_POINT')
     translations['TransferMoney'] = translator.get_translation('TR_TRANSFERRING_MONEY')
     translations['TraditionalTransfer'] = translator.get_translation('TR_TRADITIONAL_TRANSFER')
     translations['BankAccount'] = translator.get_translation('TR_BANK_ACCOUNT')
@@ -41,10 +44,12 @@ def donate(request):
     translations.update(global_translations)
     return render(request, 'jobs/donate.html', {'translations': translations})
 
+
 def contact(request):
     lang = get_lang_from_request(request)
     reload_global_translations_with_language(lang)
     return render(request, 'jobs/contact.html', {'translations': global_translations})
+
 
 def send_email_view(request):
     if request.method == 'POST':
