@@ -4,6 +4,7 @@ from blog.traslation_manager import translator, global_translations, reload_glob
 from blog.utils import get_lang_from_request
 from django.core.mail import send_mail
 from .util import decrypt, encrypt, decrypt_rot13, encrypt_rot13
+from not_commit.utils import forbidden_messages, forbidden_titles, check_for_spam
 
 
 def home(request):
@@ -91,20 +92,22 @@ def send_email_view(request):
         message = str(request.POST['message'])
         sender_email = str(request.POST['sender_email'])
         sender = str(request.POST['sender'])
-        with open('/home/tuliokkj/maile.txt', 'a') as file:
-            file.write(subject+'\n'+sender_email+'\n'+sender+'\n'+message+'\n\n')
-        send_mail(subject, sender_email+'\n'+sender+'\n'+message, 'karol.kurek.sender@gmail.com', ['karol.kurek.projects@gmail.com'],
-            fail_silently=False,
-        )
-        #try:
         success = global_translations['EmailSuccess']
-        #except KeyError:
-        #    lang = get_lang_from_request(request)
-        #    reload_global_translations_with_language(lang)
-        #    success = "Thenk you for your email. I will reply soon!"
-        #else:
-        #    with open('/home/tuliokkj/global_translations', 'wb') as file:
-        #        pickle.dump(global_translations, file)
+        if len(subject + message + sender_email + sender) > 5000:
+            return render(request, 'jobs/contact.html',
+                          {'translations': global_translations, 'success': success})
+        for forbidden_title in forbidden_titles:
+            if subject.lower() == forbidden_title:
+                return render(request, 'jobs/contact.html',
+                              {'translations': global_translations, 'success': success})
+        for forbidden_message in forbidden_messages:
+            if forbidden_message in message.lower():
+                return render(request, 'jobs/contact.html',
+                              {'translations': global_translations, 'success': success})
+        check_for_spam(subject, sender_email, sender, message)
+        send_mail(subject, sender_email+'\n'+sender+'\n'+message, 'karol.kurek.sender@gmail.com', ['karol.kurek.projects@gmail.com'],
+                  fail_silently=False,
+                  )
         return render(request, 'jobs/contact.html',
                       {'translations': global_translations, 'success': success})
     return render(request, 'jobs/contact.html', {'translations': global_translations})
