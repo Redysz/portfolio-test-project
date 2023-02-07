@@ -4,7 +4,7 @@ from blog.traslation_manager import translator, global_translations, reload_glob
 from blog.utils import get_lang_from_request
 from django.core.mail import send_mail
 from .util import decrypt, encrypt, decrypt_rot13, encrypt_rot13
-import pickle
+
 
 def home(request):
     jobs = Job.objects.all().order_by('-priority', '-id')[:4]
