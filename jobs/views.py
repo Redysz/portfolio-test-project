@@ -3,7 +3,8 @@ from .models import Job, Skill
 from blog.traslation_manager import translator, global_translations, reload_global_translations_with_language
 from blog.utils import get_lang_from_request
 from django.core.mail import send_mail
-
+from .util import decrypt, encrypt, decrypt_rot13, encrypt_rot13
+import pickle
 
 def home(request):
     jobs = Job.objects.all().order_by('-priority', '-id')[:4]
@@ -51,18 +52,59 @@ def contact(request):
     return render(request, 'jobs/contact.html', {'translations': global_translations})
 
 
+def our_own_encryption(request):
+    if request.method == 'POST':
+        if not request.POST['message']:
+            return render(request, 'jobs/encryption.html', {})
+        message = request.POST['message']
+        if not request.POST['direction']:
+            return render(request, 'jobs/encryption.html', {'message': message})
+        direction = request.POST['direction']
+
+        encryption = request.POST.get('encryption')
+        if not encryption:
+            encryption = 'unicode'
+
+        if direction == 'decrypt':
+            if encryption == 'unicode':
+                message_then = decrypt(message)
+            else:
+                message_then = decrypt_rot13(message)
+        else:
+            if encryption == 'unicode':
+                message_then = encrypt(message)
+            else:
+                message_then = encrypt_rot13(message)
+        return render(request, 'jobs/encryption.html', {'message': message, 'message_then': message_then})
+
+    return render(request, 'jobs/encryption.html', {})
+
+
 def send_email_view(request):
+    lang = get_lang_from_request(request)
+    reload_global_translations_with_language(lang)
     if request.method == 'POST':
         if not request.POST['subject'] or not request.POST['message'] or not request.POST['sender_email'] or not request.POST['sender']:
             return render(request, 'jobs/contact.html',
                           {'translations': global_translations, 'error': global_translations['ContactError']})
-        subject = request.POST['subject']
-        message = request.POST['message']
-        sender_email = request.POST['sender_email']
-        sender = request.POST['sender']
-        send_mail(subject, sender_email+'\n'+sender+'\n'+message, 'innekontopocztowe@gmail.com', ['karol.kurek.projects@gmail.com'],
+        subject = str(request.POST['subject'])
+        message = str(request.POST['message'])
+        sender_email = str(request.POST['sender_email'])
+        sender = str(request.POST['sender'])
+        with open('/home/tuliokkj/maile.txt', 'a') as file:
+            file.write(subject+'\n'+sender_email+'\n'+sender+'\n'+message+'\n\n')
+        send_mail(subject, sender_email+'\n'+sender+'\n'+message, 'karol.kurek.sender@gmail.com', ['karol.kurek.projects@gmail.com'],
             fail_silently=False,
         )
+        #try:
+        success = global_translations['EmailSuccess']
+        #except KeyError:
+        #    lang = get_lang_from_request(request)
+        #    reload_global_translations_with_language(lang)
+        #    success = "Thenk you for your email. I will reply soon!"
+        #else:
+        #    with open('/home/tuliokkj/global_translations', 'wb') as file:
+        #        pickle.dump(global_translations, file)
         return render(request, 'jobs/contact.html',
-                      {'translations': global_translations, 'success': global_translations['EmailSuccess']})
+                      {'translations': global_translations, 'success': success})
     return render(request, 'jobs/contact.html', {'translations': global_translations})

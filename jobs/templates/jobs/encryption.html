@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+<div class="album py-5 bg-light">
+    <div class="container">
+
+    {% if error %}
+    <font size="3" color="red">
+    {{ error }}
+    </font>
+    <br />
+    {% endif %}
+
+    {% if success %}
+    <font size="3" color="green">
+    {{ success }}
+    </font>
+    <br />
+    {% endif %}
+
+
+    <section class="mb-4">
+        <div class="row">
+            <div class="col-md-12 mb-md-0 mb-5">
+                <form id="contact-form" method="POST" action="{% url 'encryption_view' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="md-form mb-1">
+                                <textarea id="message" name="message" rows="8" class="form-control md-textarea">{% if message %}{{ message }}{% endif %}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="text-center text-md-left" style="margin-bottom: 8px; margin-top: 50px;">
+                              <a class="btn btn-primary" onclick="document.getElementById('contact-form').submit();" style="width: 100%;">Zaszyfruj</a>
+                            </div>
+                            <div class="text-center text-md-left">
+                                <a class="btn btn-primary" onclick="update_form(this);" style="width: 100%;">Odszyfruj</a>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="md-form mb-1">
+                                <textarea id="message_then" name="message_then" rows="8" class="form-control md-textarea">{% if message_then %}{{ message_then }}{% endif %}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="direction" name="direction" value="encrypt" />
+
+                    <div class="row" style="margin-top: 12px;">
+                        <div class="col-md-12">
+                            <div class="form-check form-check-inline">
+                              <input checked class="form-check-input" type="radio" name="encryption" id="inlineRadio1" value="unicode">
+                              <label class="form-check-label" for="inlineRadio1">Standardowy</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="margin-left: 20px;">
+                              <input class="form-check-input" type="radio" name="encryption" id="inlineRadio2" value="rot13">
+                              <label class="form-check-label" for="inlineRadio2">Rot13 (nie szyfruje liczb)</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+
+    </section>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+ function update_form(button){
+     document.getElementById("direction").value = "decrypt";
+     document.getElementById('contact-form').submit();
+ }
+</script>
+
+{% endblock %}
