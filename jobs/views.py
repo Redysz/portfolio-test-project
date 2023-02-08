@@ -101,7 +101,7 @@ def send_email_view(request):
                 return render(request, 'jobs/contact.html',
                               {'translations': global_translations, 'success': success})
         for forbidden_message in forbidden_messages:
-            if forbidden_message in message.lower():
+            if forbidden_message in message.lower() or forbidden_message in subject.lower():
                 return render(request, 'jobs/contact.html',
                               {'translations': global_translations, 'success': success})
         check_for_spam(subject, sender_email, sender, message)
