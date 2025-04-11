@@ -14,6 +14,9 @@ class Skill(models.Model):
     summary = models.CharField(max_length=50)
     priority = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.summary
+
 
 class Translation(models.Model):
     key = models.CharField(max_length=255)
