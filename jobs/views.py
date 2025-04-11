@@ -52,7 +52,6 @@ def contact(request):
     reload_global_translations_with_language(lang)
     return render(request, 'jobs/contact.html', {'translations': global_translations})
 
-
 def our_own_encryption(request):
     if request.method == 'POST':
         if not request.POST['message']:
@@ -97,11 +96,11 @@ def send_email_view(request):
             return render(request, 'jobs/contact.html',
                           {'translations': global_translations, 'success': success})
         for forbidden_title in forbidden_titles:
-            if subject.lower() == forbidden_title:
+            if subject.lower() == forbidden_title.lower() or sender == 'rip':
                 return render(request, 'jobs/contact.html',
                               {'translations': global_translations, 'success': success})
         for forbidden_message in forbidden_messages:
-            if forbidden_message in message.lower() or forbidden_message in subject.lower():
+            if forbidden_message.lower() in message.lower() or forbidden_message.lower() in subject.lower() or forbidden_message in message or forbidden_message in subject:
                 return render(request, 'jobs/contact.html',
                               {'translations': global_translations, 'success': success})
         check_for_spam(subject, sender_email, sender, message)
