@@ -4,7 +4,7 @@ from blog.traslation_manager import translator, global_translations, reload_glob
 from blog.utils import get_lang_from_request
 from django.core.mail import send_mail
 from .util import decrypt, encrypt, decrypt_rot13, encrypt_rot13
-from not_commit.utils import forbidden_messages, forbidden_titles, check_for_spam
+from not_commit.utils import forbidden_messages, forbidden_titles, check_for_spam, partially_forbidden_titles
 
 
 def home(request):
@@ -97,6 +97,10 @@ def send_email_view(request):
                           {'translations': global_translations, 'success': success})
         for forbidden_title in forbidden_titles:
             if subject.lower() == forbidden_title.lower() or sender == 'rip':
+                return render(request, 'jobs/contact.html',
+                              {'translations': global_translations, 'success': success})
+		for forbidden_partially_title in partially_forbidden_titles:
+			if forbidden_partially_title.lower() in subject.lower() or forbidden_partially_title.lower() in sender.lower():
                 return render(request, 'jobs/contact.html',
                               {'translations': global_translations, 'success': success})
         for forbidden_message in forbidden_messages:
